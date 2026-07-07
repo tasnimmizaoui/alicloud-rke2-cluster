@@ -1,0 +1,15 @@
+# Copy this file to terraform.tfvars and fill in real values.
+# terraform.tfvars is gitignored - never commit it.
+
+region           = "me-central-1"      # Riyadh
+zone             = "me-central-1a"
+vpc_cidr         = "172.16.0.0/12"
+vswitch_cidr     = "172.16.1.0/24"
+instance_type    = "ecs.t6-c1m2.large" # 2 vCPU / 4 GiB, burstable
+disk_size        = 40
+
+key_pair_name    = "rke2-lab-key"      # must already exist in the Alibaba Cloud console
+
+ssh_allowed_cidr = "YOUR_PUBLIC_IP/32" 
+
+rke2_token       = "CHANGE_ME"         # any random secret, e.g. output of: openssl rand -hex 16

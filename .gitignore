@@ -1,0 +1,15 @@
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars
+!terraform.tfvars.example
+terraform/tf.plan
+# SSH keys / secrets
+*.pem
+*.key
+
+# OS
+.DS_Store
+
+notes.txt
