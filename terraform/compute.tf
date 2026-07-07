@@ -33,5 +33,6 @@ resource "alicloud_instance" "worker" {
 
  user_data = base64encode(templatefile("${path.module}/../scripts/install-agent.sh.tpl", {
     rke2_token = var.rke2_token
+    master_ip  = alicloud_instance.master.private_ip
   }))
 }

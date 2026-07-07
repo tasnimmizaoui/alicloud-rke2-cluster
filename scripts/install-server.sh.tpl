@@ -23,6 +23,8 @@ mkdir -p /etc/rancher/rke2/
 cat <<EOF > /etc/rancher/rke2/config.yaml
 token: "${rke2_token}"
 cni: calico
+disable:
+  - rke2-traefik
 EOF
 
 # 4. Install and start RKE2 Server 
