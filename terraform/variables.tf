@@ -44,3 +44,9 @@ variable "allowed_cidr" {
   type        = string
   default     = "0.0.0.0/0"
 }
+
+variable "rke2_token" {
+  description = "RKE2 cluster token"
+  type        = string
+  sensitive = true
+}

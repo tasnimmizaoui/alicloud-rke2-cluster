@@ -13,26 +13,11 @@ resource "alicloud_instance" "master" {
   system_disk_category       = "cloud_essd"
   system_disk_size           = var.disk_size
   key_name                   = var.key_pair_name
-  internet_max_bandwidth_out = 5 
-  
-  # To provision a non-root user
-  user_data = base64encode(<<-EOF
-              #!/bin/bash
-              # Create the user
-              useradd -m -s /bin/bash ecs-user
-              usermod -aG sudo ecs-user
-              echo "ecs-user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/ecs-user
+  internet_max_bandwidth_out = 5  
 
-              # Copy the Alibaba Cloud injected SSH key from root to the new user
-              mkdir -p /home/ecs-user/.ssh
-              cp /root/.ssh/authorized_keys /home/ecs-user/.ssh/
-              chown -R ecs-user:ecs-user /home/ecs-user/.ssh
-              chmod 700 /home/ecs-user/.ssh
-              chmod 600 /home/ecs-user/.ssh/authorized_keys
-              EOF
-  )
-
-  
+  user_data = base64encode(templatefile("${path.module}/../scripts/install-server.sh.tpl", {
+    rke2_token = var.rke2_token
+  }))
 }
 
 resource "alicloud_instance" "worker" {
@@ -46,19 +31,7 @@ resource "alicloud_instance" "worker" {
   key_name                   = var.key_pair_name
   internet_max_bandwidth_out = 5
 
-  user_data = base64encode(<<-EOF
-              #!/bin/bash
-              # Create the user
-              useradd -m -s /bin/bash ecs-user
-              usermod -aG sudo ecs-user
-              echo "ecs-user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/ecs-user
-
-              # Copy the Alibaba Cloud injected SSH key from root to the new user
-              mkdir -p /home/ecs-user/.ssh
-              cp /root/.ssh/authorized_keys /home/ecs-user/.ssh/
-              chown -R ecs-user:ecs-user /home/ecs-user/.ssh
-              chmod 700 /home/ecs-user/.ssh
-              chmod 600 /home/ecs-user/.ssh/authorized_keys
-              EOF
-  )
+ user_data = base64encode(templatefile("${path.module}/../scripts/install-agent.sh.tpl", {
+    rke2_token = var.rke2_token
+  }))
 }
