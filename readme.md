@@ -39,3 +39,21 @@ This repository contains the Infrastructure as Code (IaC) configurations and clo
 Generate a secure, random token that the Worker nodes will use to authenticate with the Master node. Run this locally:
 ```bash
 openssl rand -hex 16
+```
+---
+### Access the Cluster
+Once Terraform finishes, allow ~3 to 5 minutes for the cloud-init scripts to run, install RKE2, and initialize the Calico CNI.
+
+SSH into your Master node as ecs-user:
+
+```bash
+ssh -i /path/to/your/key.pem ecs-user@<MASTER_PUBLIC_IP>
+```
+### Note on Shell Environment:
+> The automation script appends the RKE2 binary path (/var/lib/rancher/rke2/bin) directly to your user's shell profile. If your SSH session connects exactly as the script finishes executing, the new path might not be active yet.
+
+To ensure kubectl is recognized immediately without logging out and back in, always source your shell profile upon first entry:
+
+```bash
+source ~/.bashrc
+```
