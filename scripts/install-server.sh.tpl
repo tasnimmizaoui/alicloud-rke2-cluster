@@ -1,8 +1,6 @@
 #!/bin/bash
-# ==========================================
 # Unified RKE2 Master Node Initialization Template
-# Version: v1.36.2+rke2r1 (Fresh Install)
-# ==========================================
+# Version: v1.35.6+rke2r1 
 
 # 1. Create the ecs-user and grant passwordless sudo permissions
 id -u ecs-user &>/dev/null || useradd -m -s /bin/bash ecs-user
@@ -28,7 +26,7 @@ disable:
 EOF
 
 # 4. Install and start RKE2 Server 
-curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION="v1.36.2+rke2r1" sh -
+curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION="v1.35.6+rke2r1" sh -
 systemctl enable rke2-server.service
 systemctl start rke2-server.service
 
