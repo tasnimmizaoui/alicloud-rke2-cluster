@@ -1,0 +1,13 @@
+providers:
+  kubernetesIngress:
+    enabled: true
+  kubernetesGateway:
+    enabled: true
+    experimentalChannel: true
+
+ingressRoute:
+  dashboard:
+    enabled: true
+
+service:
+  type: LoadBalancer

@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nginx-data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: strict-essd-pl0-me-central-1a
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      initContainers:
+      - name: fetch-oos-secret
+        image: alpine:latest
+        command:
+        - sh
+        - -c
+        - |
+          # 1. Install curl
+          apk add --no-cache curl
+          
+          # 2. Download and extract the Aliyun CLI
+          curl -sSL "https://aliyuncli.alicdn.com/aliyun-cli-linux-latest-amd64.tgz" | tar -xz -C /usr/local/bin
+          
+          # 3. Create a symlink for glibc compatibility on Alpine
+          mkdir -p /lib64 && ln -sf /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
+          
+          # 4. Fetch the secret
+          aliyun oos GetSecretParameter \
+            --RegionId me-central-1 \
+            --Name "MyNginxSecret" \
+            --WithDecryption true --region me-central-1 | grep '"Value"' | cut -d '"' -f 4 > /mnt/secrets/app-secret.txt
+        env:
+        - name: ALIBABACLOUD_REGION_ID
+          value: "me-central-1"
+        - name: ALIBABACLOUD_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: aliyun-creds
+              key: id
+        - name: ALIBABACLOUD_ACCESS_KEY_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: aliyun-creds
+              key: secret
+        volumeMounts:
+        - name: secret-vol
+          mountPath: /mnt/secrets
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        volumeMounts:
+        - name: data-vol
+          mountPath: /usr/share/nginx/html
+        - name: secret-vol
+          mountPath: /etc/nginx/secrets
+          readOnly: true
+      volumes:
+      - name: data-vol
+        persistentVolumeClaim:
+          claimName: nginx-data-pvc
+      - name: secret-vol
+        emptyDir:
+          medium: Memory

@@ -6,7 +6,7 @@ data "alicloud_images" "ubuntu" {
 
 resource "alicloud_instance" "master" {
   instance_name              = "rke2-master-tasnim"
-  instance_type              = "ecs.t6-c1m4.large" # the new 2CPU/8GB size
+  instance_type              = var.instance_type 
   image_id                   = data.alicloud_images.ubuntu.images[0].id
   security_groups            = [alicloud_security_group.this.id]
   vswitch_id                 = alicloud_vswitch.this.id

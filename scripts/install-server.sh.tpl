@@ -16,26 +16,37 @@ if [ -f /root/.ssh/authorized_keys ]; then
     chmod 600 /home/ecs-user/.ssh/authorized_keys
 fi
 
-# 3. Write minimal configuration file (just the token needed for fresh v1.36)
+# 3. Fetch exact instance data from Alibaba Cloud Metadata Server
+META_EP="http://100.100.100.200/latest/meta-data"
+REGION_ID=$(curl -s $META_EP/region-id)
+INSTANCE_ID=$(curl -s $META_EP/instance-id)
+PROVIDER_ID="alicloud://$REGION_ID.$INSTANCE_ID"
+
+# 4. Write minimal configuration file with Provider ID injected
 mkdir -p /etc/rancher/rke2/
 cat <<EOF > /etc/rancher/rke2/config.yaml
 token: "${rke2_token}"
 cni: calico
 disable:
   - rke2-traefik
+  - rke2-ingress-nginx
+disable-cloud-controller: true
+cloud-provider-name: "external"
+kubelet-arg:
+  - "provider-id=$PROVIDER_ID"
 EOF
 
-# 4. Install and start RKE2 Server 
+# 5. Install and start RKE2 Server 
 curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION="v1.35.6+rke2r1" sh -
 systemctl enable rke2-server.service
 systemctl start rke2-server.service
 
-# 5. Configure cluster admin access for ecs-user
+# 6. Configure cluster admin access for ecs-user
 mkdir -p /home/ecs-user/.kube
 while [ ! -f /etc/rancher/rke2/rke2.yaml ]; do sleep 5; done
 cp /etc/rancher/rke2/rke2.yaml /home/ecs-user/.kube/config
 chown -R ecs-user:ecs-user /home/ecs-user/.kube
 chmod 600 /home/ecs-user/.kube/config
 
-# 6. Add RKE2 binaries to ecs-user path
+# 7. Add RKE2 binaries to ecs-user path
 echo 'export PATH=$PATH:/var/lib/rancher/rke2/bin' >> /home/ecs-user/.bashrc
