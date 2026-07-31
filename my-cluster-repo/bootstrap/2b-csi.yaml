@@ -22,9 +22,8 @@ spec:
       ref: values
     # Source 3: Your Git Repo (for StorageClass manifest)
     - repoURL: 'https://github.com/tasnimmizaoui/alicloud-rke2-cluster.git'
-      path: my-cluster-repo
       targetRevision: HEAD
-      path: infrastructure/csi/manifests
+      path: my-cluster-repo/infrastructure/csi/manifests
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: kube-system
