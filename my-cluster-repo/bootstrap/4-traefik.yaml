@@ -13,7 +13,7 @@ spec:
       targetRevision: 26.1.0 # Standard stable version
       helm:
         valueFiles:
-          - $values/infrastructure/traefik/values.yaml
+          - $values/my-cluster-repo/infrastructure/traefik/values.yaml
     - repoURL: 'https://github.com/tasnimmizaoui/alicloud-rke2-cluster.git'
       path: my-cluster-repo
       targetRevision: HEAD

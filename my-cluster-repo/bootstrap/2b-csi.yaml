@@ -13,7 +13,7 @@ spec:
       repoURL: https://kubernetes-sigs.github.io/alibaba-cloud-csi-driver
       helm:
         valueFiles:
-          - $values/infrastructure/csi/values.yaml
+          - $values/my-cluster-repo/infrastructure/csi/values.yaml
     # Source 2: Your Git Repo (for values.yaml reference)
     - repoURL: 'https://github.com/tasnimmizaoui/alicloud-rke2-cluster.git'
       path: my-cluster-repo

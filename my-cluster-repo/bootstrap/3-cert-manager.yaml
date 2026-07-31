@@ -13,7 +13,7 @@ spec:
       targetRevision: v1.20.3  # Recommended stable version
       helm:
         valueFiles:
-          - $values/infrastructure/cert-manager/values.yaml
+          - $values/my-cluster-repo/infrastructure/cert-manager/values.yaml
     - repoURL: 'https://github.com/tasnimmizaoui/alicloud-rke2-cluster.git'
       path: my-cluster-repo
       targetRevision: HEAD
