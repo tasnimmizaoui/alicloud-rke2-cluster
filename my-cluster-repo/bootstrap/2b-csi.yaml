@@ -10,6 +10,7 @@ spec:
   sources:
     # Source 1: Upstream Alibaba CSI Helm Chart
     - chart: alibaba-cloud-csi-driver
+      targetRevision: "1.36.2"
       repoURL: https://kubernetes-sigs.github.io/alibaba-cloud-csi-driver
       helm:
         valueFiles:
