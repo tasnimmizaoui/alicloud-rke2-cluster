@@ -1,0 +1,20 @@
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: alibaba-ccm
+#   namespace: argocd
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "-1"
+# spec:
+#   project: default
+#   source:
+#     repoURL: 'https://github.com/tasnimmizaoui/alicloud-rke2-cluster.git'
+#     targetRevision: HEAD
+#     path: my-cluster-repo/infrastructure/ccm
+#   destination:
+#     server: 'https://kubernetes.default.svc'
+#     namespace: kube-system
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true

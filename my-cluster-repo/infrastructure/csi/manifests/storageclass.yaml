@@ -1,0 +1,11 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: strict-essd-pl0-me-central-1a
+provisioner: diskplugin.csi.alibabacloud.com
+parameters:
+  type: cloud_essd
+  performanceLevel: PL0
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true

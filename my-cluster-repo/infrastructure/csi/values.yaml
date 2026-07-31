@@ -1,0 +1,8 @@
+deploy:
+  regionID: "me-central-1"  # Riyadh Region
+  accessKey:
+    enabled: true            # Tells CSI driver to look for 'csi-access-key' secret
+
+csi:
+  disk:
+    enabled: true

@@ -64,3 +64,14 @@ resource "alicloud_security_group_rule" "https_public" {
   security_group_id = alicloud_security_group.this.id
   cidr_ip           = "0.0.0.0/0" 
 }
+# Required to access the ArgoCD UI via NodePort
+resource "alicloud_security_group_rule" "argocd_ui" {
+  type              = "ingress"
+  ip_protocol       = "tcp"
+  nic_type          = "intranet"
+  policy            = "accept"
+  port_range        = "30241/30241"
+  priority          = 1
+  security_group_id = alicloud_security_group.this.id
+  cidr_ip           = "0.0.0.0/0"  # Or use var.allowed_cidr if you want to lock it down to your IP
+}

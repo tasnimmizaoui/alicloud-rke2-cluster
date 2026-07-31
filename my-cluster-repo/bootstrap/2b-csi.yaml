@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: alibaba-csi
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"  # Installed alongside CCM before apps/traefik
+spec:
+  project: default
+  sources:
+    # Source 1: Upstream Alibaba CSI Helm Chart
+    - chart: alibaba-cloud-csi-driver
+      repoURL: https://kubernetes-sigs.github.io/alibaba-cloud-csi-driver
+      helm:
+        valueFiles:
+          - $values/infrastructure/csi/values.yaml
+    # Source 2: Your Git Repo (for values.yaml reference)
+    - repoURL: 'https://github.com/tasnimmizaoui/alicloud-rke2-cluster.git'
+      path: my-cluster-repo
+      targetRevision: HEAD
+      ref: values
+    # Source 3: Your Git Repo (for StorageClass manifest)
+    - repoURL: 'https://github.com/tasnimmizaoui/alicloud-rke2-cluster.git'
+      path: my-cluster-repo
+      targetRevision: HEAD
+      path: infrastructure/csi/manifests
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: kube-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
