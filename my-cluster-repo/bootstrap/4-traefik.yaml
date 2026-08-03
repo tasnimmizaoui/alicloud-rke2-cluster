@@ -8,17 +8,18 @@ metadata:
 spec:
   project: default
   sources:
+# Source 1: Helm Chart
     - chart: traefik
       repoURL: https://traefik.github.io/charts
       targetRevision: 26.1.0 # Standard stable version
       helm:
         valueFiles:
           - $values/my-cluster-repo/infrastructure/traefik/values.yaml
+# Source 2: Git Repo (for values.yaml reference)
     - repoURL: 'https://github.com/tasnimmizaoui/alicloud-rke2-cluster.git'
-      path: my-cluster-repo
       targetRevision: HEAD
       ref: values
-    # Source : Your Git Repo (for GatewayClass & extra manifests)
+    # Source : Git Repo (for GatewayClass & extra manifests)
     - repoURL: 'https://github.com/tasnimmizaoui/alicloud-rke2-cluster.git'
       path: my-cluster-repo/infrastructure/traefik/manifests
       targetRevision: HEAD
