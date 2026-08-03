@@ -65,3 +65,4 @@ spec:
     backendRefs:
     - name: whoami
       port: 80
+
