@@ -11,7 +11,7 @@ spec:
 # Source 1: Helm Chart
     - chart: traefik
       repoURL: https://traefik.github.io/charts
-      targetRevision: 26.1.0 # Standard stable version
+      targetRevision: 32.0.0 # Pulls Traefik v3
       helm:
         valueFiles:
           - $values/my-cluster-repo/infrastructure/traefik/values.yaml
