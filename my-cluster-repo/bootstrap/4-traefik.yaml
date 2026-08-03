@@ -19,10 +19,10 @@ spec:
     - repoURL: 'https://github.com/tasnimmizaoui/alicloud-rke2-cluster.git'
       targetRevision: HEAD
       ref: values
-    # Source : Git Repo (for GatewayClass & extra manifests)
-    - repoURL: 'https://github.com/tasnimmizaoui/alicloud-rke2-cluster.git'
-      path: my-cluster-repo/infrastructure/traefik/manifests
-      targetRevision: HEAD
+    # # Source : Git Repo (for GatewayClass & extra manifests)
+    # - repoURL: 'https://github.com/tasnimmizaoui/alicloud-rke2-cluster.git'
+    #   path: my-cluster-repo/infrastructure/traefik/manifests
+    #   targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: traefik
