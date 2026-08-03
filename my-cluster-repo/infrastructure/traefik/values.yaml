@@ -4,9 +4,18 @@ providers:
   kubernetesGateway:
     enabled: true
 
-# Re-enable the official Gateway and allow cross-namespace routing
 gateway:
   enabled: true
+  name: traefik-gateway
+  listeners:
+    web:
+      port: 8000
+      protocol: HTTP
+      namespacePolicy: All
+    websecure:
+      port: 8443
+      protocol: HTTPS
+      namespacePolicy: All
 
 ingressRoute:
   dashboard:
