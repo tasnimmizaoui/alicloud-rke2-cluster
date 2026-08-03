@@ -1,18 +1,18 @@
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  name: my-gateway
-  namespace: default
-spec:
-  gatewayClassName: traefik
-  listeners:
-    - name: http
-      protocol: HTTP
-      port: 80
-      allowedRoutes:
-        namespaces:
-          from: Same
----
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: Gateway
+# metadata:
+#   name: my-gateway
+#   namespace: default
+# spec:
+#   gatewayClassName: traefik
+#   listeners:
+#     - name: http
+#       protocol: HTTP
+#       port: 80
+#       allowedRoutes:
+#         namespaces:
+#           from: Same
+# ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -52,8 +52,9 @@ metadata:
   name: whoami-route
   namespace: default
 spec:
-  parentRefs:
-  - name: my-gateway
+ parentRefs:
+  - name: traefik-gateway
+    namespace: traefik
   hostnames:
   - "test-app-tasnim.awssolutionsprovider.com"
   rules:
