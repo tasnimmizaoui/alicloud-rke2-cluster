@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: argocd-cert
+  namespace: traefik
+spec:
+  secretName: argocd-tls-secret
+  issuerRef:
+    name: letsencrypt-lab
+    kind: ClusterIssuer
+  dnsNames:
+  - argocd.8.213.21.35.sslip.io
