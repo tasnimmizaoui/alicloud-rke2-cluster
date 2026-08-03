@@ -54,6 +54,7 @@ metadata:
 spec:
   parentRefs:
   - name: my-gateway
+    sectionName: web
     # Removed the namespace declaration so it defaults to the same namespace
   hostnames:
   - "test-app-tasnim.awssolutionsprovider.com"

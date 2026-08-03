@@ -3,6 +3,9 @@ providers:
     enabled: true
   kubernetesGateway:
     enabled: true
+# Disable the Helm-provisioned Gateway to prevent conflicts
+gateway:
+  enabled: false
 
 gatewayAPI:
   installCRDs: false
