@@ -11,13 +11,8 @@ gateway:
     web:
       port: 8000
       protocol: HTTP
-      # Pass the string directly instead of a nested object
-      namespacePolicy: "All"
-    # websecure:
-    #   port: 8443
-    #   protocol: HTTPS
-    #   # Pass the string directly instead of a nested object
-    #   namespacePolicy: "All"
+      namespacePolicy:
+        from: All
 
 ingressRoute:
   dashboard:
