@@ -3,7 +3,6 @@ providers:
     enabled: true
   kubernetesGateway:
     enabled: true
-    experimentalChannel: true
 
 ingressRoute:
   dashboard:
