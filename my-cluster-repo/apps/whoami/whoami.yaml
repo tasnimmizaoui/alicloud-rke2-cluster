@@ -52,7 +52,7 @@ metadata:
   name: whoami-route
   namespace: default
 spec:
- parentRefs:
+  parentRefs:
   - name: traefik-gateway
     namespace: traefik
   hostnames:
