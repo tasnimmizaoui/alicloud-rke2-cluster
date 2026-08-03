@@ -3,12 +3,15 @@ providers:
     enabled: true
   kubernetesGateway:
     enabled: true
-# Disable the Helm-provisioned Gateway to prevent conflicts
-gateway:
-  enabled: false
 
-gatewayAPI:
-  installCRDs: false
+# Re-enable the official Gateway and allow cross-namespace routing
+gateway:
+  enabled: true
+  listeners:
+    web:
+      namespacePolicy: All
+    websecure:
+      namespacePolicy: All
 
 ingressRoute:
   dashboard:

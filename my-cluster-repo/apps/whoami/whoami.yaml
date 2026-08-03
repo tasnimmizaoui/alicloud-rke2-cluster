@@ -1,18 +1,3 @@
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  name: my-gateway
-  namespace: default
-spec:
-  gatewayClassName: traefik
-  listeners:
-    - name: web
-      protocol: HTTP
-      port: 8000
-      allowedRoutes:
-        namespaces:
-          from: Same
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -53,9 +38,9 @@ metadata:
   namespace: default
 spec:
   parentRefs:
-  - name: my-gateway
-    sectionName: web
-    # Removed the namespace declaration so it defaults to the same namespace
+  # Point back to the official Gateway in the traefik namespace
+  - name: traefik-gateway
+    namespace: traefik
   hostnames:
   - "test-app-tasnim.awssolutionsprovider.com"
   rules:
