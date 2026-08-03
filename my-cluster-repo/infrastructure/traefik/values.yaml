@@ -4,6 +4,9 @@ providers:
   kubernetesGateway:
     enabled: true
 
+gatewayAPI:
+  installCRDs: false
+
 ingressRoute:
   dashboard:
     enabled: true
