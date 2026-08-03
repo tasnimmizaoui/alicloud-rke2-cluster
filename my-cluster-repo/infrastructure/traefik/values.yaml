@@ -11,11 +11,14 @@ gateway:
     web:
       port: 8000
       protocol: HTTP
-      namespacePolicy: All
+      namespacePolicy:
+        from: All
     websecure:
       port: 8443
       protocol: HTTPS
-      namespacePolicy: All
+      namespacePolicy:
+        from: All
+
 
 ingressRoute:
   dashboard:
