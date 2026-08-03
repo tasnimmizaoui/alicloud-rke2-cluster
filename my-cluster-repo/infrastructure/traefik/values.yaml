@@ -13,6 +13,14 @@ gateway:
       protocol: HTTP
       namespacePolicy:
         from: All
+    websecure:
+      port: 8443
+      protocol: HTTPS
+      namespacePolicy:
+        from: All
+      certificateRefs:
+        - name: test-app-tls-secret
+          kind: Secret
 
 ingressRoute:
   dashboard:

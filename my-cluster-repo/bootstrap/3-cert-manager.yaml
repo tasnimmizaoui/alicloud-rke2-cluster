@@ -18,6 +18,9 @@ spec:
       path: my-cluster-repo
       targetRevision: HEAD
       ref: values
+    - repoURL: 'https://github.com/tasnimmizaoui/alicloud-rke2-cluster.git'
+      path: my-cluster-repo/infrastructure/cert-manager/manifests
+      targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: cert-manager

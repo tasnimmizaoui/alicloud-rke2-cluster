@@ -1,0 +1,17 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-lab
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: tmizaoui@puffersoft.com
+    privateKeySecretRef:
+      name: letsencrypt-lab-account-key
+    solvers:
+    - http01:
+        gatewayHTTPRoute:
+          parentRefs:
+          - name: traefik-gateway
+            namespace: traefik
+            kind: Gateway
