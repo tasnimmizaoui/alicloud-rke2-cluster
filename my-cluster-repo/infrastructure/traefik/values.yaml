@@ -7,11 +7,6 @@ providers:
 # Re-enable the official Gateway and allow cross-namespace routing
 gateway:
   enabled: true
-  listeners:
-    web:
-      namespacePolicy: All
-    websecure:
-      namespacePolicy: All
 
 ingressRoute:
   dashboard:
