@@ -23,6 +23,8 @@ gateway:
           kind: Secret
         - name: argocd-tls-secret
           kind: Secret
+        - name: grafana-tls-secret 
+          kind: Secret
 
 ingressRoute:
   dashboard:

@@ -1,0 +1,28 @@
+grafana:
+  enabled: true
+  adminPassword: "tass_admin" # Replace with a secure password or secret reference
+  ingress:
+    enabled: false # We use Gateway API HTTPRoute instead
+  persistence:
+    enabled: true
+    storageClassName: "alicloud-disk-available" # Used our Alibaba CSI storage class
+    size: 10Gi
+
+prometheus:
+  prometheusSpec:
+    retention: 7d
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "strict-essd-pl0-me-central-1a"
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 20Gi
+
+# Enable default exporters for Kubernetes & RKE2
+nodeExporter:
+  enabled: true
+
+kubeStateMetrics:
+  enabled: true

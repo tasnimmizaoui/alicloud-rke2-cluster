@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: grafana-cert
+  namespace: traefik
+spec:
+  secretName: grafana-tls-secret
+  issuerRef:
+    name: letsencrypt-lab
+    kind: ClusterIssuer
+  dnsNames:
+    - grafana.8.213.21.35.sslip.io
