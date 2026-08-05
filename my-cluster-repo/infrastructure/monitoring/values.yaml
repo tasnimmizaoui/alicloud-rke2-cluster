@@ -4,21 +4,21 @@ grafana:
   ingress:
     enabled: false # We use Gateway API HTTPRoute instead
   persistence:
-    enabled: true
-    storageClassName: "strict-essd-pl0-me-central-1a" # Used our Alibaba CSI storage class
-    size: 10Gi
+    enabled: false
+    # storageClassName: "strict-essd-pl0-me-central-1a" # Used our Alibaba CSI storage class
+    # size: 10Gi
 
 prometheus:
   prometheusSpec:
     retention: 7d
-    storageSpec:
-      volumeClaimTemplate:
-        spec:
-          storageClassName: "strict-essd-pl0-me-central-1a"
-          accessModes: ["ReadWriteOnce"]
-          resources:
-            requests:
-              storage: 20Gi
+    storageSpec: {}
+      # volumeClaimTemplate:
+      #   spec:
+      #     storageClassName: "strict-essd-pl0-me-central-1a"
+      #     accessModes: ["ReadWriteOnce"]
+      #     resources:
+      #       requests:
+      #         storage: 20Gi
 
 # Enable default exporters for Kubernetes & RKE2
 nodeExporter:
