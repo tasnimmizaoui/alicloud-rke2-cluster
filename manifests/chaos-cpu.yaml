@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: chaos-cpu-throttle
+  namespace: default
+spec:
+  containers:
+  - name: cpu-burner
+    image: busybox
+    # An infinite loop that demands 100% of a CPU core
+    command: ["/bin/sh", "-c", "while true; do true; done"]
+    resources:
+      requests:
+        cpu: "100m"  # Requests 0.1 CPU core
+      limits:
+        cpu: "200m"  # Hard limit at 0.2 CPU cores
