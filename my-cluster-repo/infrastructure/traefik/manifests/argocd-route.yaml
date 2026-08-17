@@ -7,6 +7,8 @@ spec:
   parentRefs:
   - name: traefik-gateway
     namespace: traefik
+    group: gateway.networking.k8s.io  # Added default group
+    kind: Gateway                     # Added default kind
   hostnames:
   - "argocd.8.213.21.35.sslip.io"
   rules:
@@ -17,3 +19,6 @@ spec:
     backendRefs:
     - name: argocd-server
       port: 80
+      group: ""                       # Added default group
+      kind: Service                   # Added default kind
+      weight: 1                       # Added default weight
