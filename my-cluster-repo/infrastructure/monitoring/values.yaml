@@ -26,3 +26,34 @@ nodeExporter:
 
 kubeStateMetrics:
   enabled: true
+
+alertmanager:
+  config:
+    global:
+      resolve_timeout: 5m
+      # Hostinger SMTP Settings
+      smtp_smarthost: 'smtp.hostinger.com:587'
+      smtp_from: 'tmizaoui@puffersoft.com'
+      smtp_auth_username: 'tmizaoui@puffersoft.com'
+      smtp_auth_password: 'willbeedited' # Use your actual Hostinger email password
+      smtp_require_tls: true
+
+    route:
+      group_by: ['namespace', 'alertname']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 3h
+      receiver: 'email-notifications'
+      routes:
+        - receiver: 'email-notifications'
+          matchers:
+            - severity="warning"
+        - receiver: 'email-notifications'
+          matchers:
+            - severity="critical"
+
+    receivers:
+    - name: 'email-notifications'
+      email_configs:
+      - to: 'tmizaoui@puffersoft.com' # The inbox where you want to receive the alerts
+        send_resolved: true
