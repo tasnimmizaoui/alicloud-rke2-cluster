@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: test-pipeline-alert
+  namespace: monitoring
+  labels:
+    release: monitoring-stack   # Crucial label for your setup
+spec:
+  groups:
+  - name: test.rules
+    rules:
+    - alert: TestPipelineAlert
+      expr: vector(1) == 1      # Always evaluates to true
+      for: 0m                  # Fires immediately without waiting
+      labels:
+        severity: warning
+      annotations:
+        summary: "Testing PrometheusRule Pipeline"
+        description: "If this alert appears in Prometheus/Alertmanager, your custom rules work!"
