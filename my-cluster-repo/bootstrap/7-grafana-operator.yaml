@@ -9,6 +9,24 @@ spec:
     repoURL: 'https://grafana.github.io/helm-charts'
     chart: grafana-operator
     targetRevision: 5.24.0
+    helm:
+      valuesObject:
+        # Resource caps to protect worker node memory
+        resources:
+          limits:
+            cpu: 200m
+            memory: 256Mi
+          requests:
+            cpu: 50m
+            memory: 100Mi
+        # Explicitly exclude the control-plane node from scheduling
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: node-role.kubernetes.io/control-plane
+                  operator: DoesNotExist
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: monitoring
