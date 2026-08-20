@@ -24,6 +24,8 @@ spec:
     # Source 3: Git Repo (for Certificate & HTTPRoute)
     - repoURL: 'https://github.com/tasnimmizaoui/alicloud-rke2-cluster.git'
       path: my-cluster-repo/infrastructure/monitoring/manifests
+      directory:
+        recurse: true # <-- This forces Argo CD to read the alerts/ sub-folder
       targetRevision: HEAD
 
   destination:
