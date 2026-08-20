@@ -1,0 +1,14 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: external-grafana
+  namespace: monitoring
+  labels:
+    dashboards: "kube-prometheus" # This label is crucial for matching resources
+spec:
+  external:
+    # URL of your existing Prometheus Stack Grafana Service
+    url: "http://monitoring-stack-grafana.monitoring.svc.cluster.local:80"
+    apiKey:
+      name: grafana-operator-credentials
+      key: token

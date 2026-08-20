@@ -1,0 +1,29 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaAlertRuleGroup
+metadata:
+  name: high-cpu-alert
+  namespace: monitoring
+spec:
+  folderRef: "Operator Alerts" # The operator will create this folder
+  instanceSelector:
+    matchLabels:
+      dashboards: "kube-prometheus" # Must match the label on our Grafana CR above
+  interval: 1m
+  rules:
+    - name: "NodeCPUHigh"
+      condition: "C"
+      noDataState: "NoData"
+      execErrState: "Error"
+      data:
+        - refId: "A"
+          datasourceUid: "prometheus" # Make sure this matches your Prometheus UID in Grafana
+          model:
+            expr: "100 - (avg by(instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100) > 80"
+        - refId: "C"
+          datasourceUid: "__expr__"
+          model:
+            conditions:
+              - evaluator:
+                  params: [80]
+                  type: gt
+            type: classic_conditions
