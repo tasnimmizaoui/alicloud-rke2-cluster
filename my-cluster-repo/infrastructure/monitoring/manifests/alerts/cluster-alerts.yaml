@@ -4,13 +4,17 @@ metadata:
   name: high-cpu-alert
   namespace: monitoring
 spec:
-  folder: "Operator Alerts"
+  # Schema strictly requires folderRef or folderUID
+  folderRef: "operator-alerts" 
   instanceSelector:
     matchLabels:
       dashboards: "kube-prometheus"
   interval: 1m
   rules:
-    - name: "NodeCPUHigh"
+    # Schema requires 'title', 'uid', 'for', 'condition', 'data', 'execErrState', 'noDataState'
+    - title: "NodeCPUHigh"
+      uid: "node-cpu-high-rule-1"
+      for: "1m" 
       condition: "C"
       noDataState: "NoData"
       execErrState: "Error"
