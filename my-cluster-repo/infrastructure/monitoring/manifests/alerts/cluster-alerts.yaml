@@ -4,14 +4,12 @@ metadata:
   name: high-cpu-alert
   namespace: monitoring
 spec:
-  # Schema strictly requires folderRef or folderUID
   folderRef: "operator-alerts" 
   instanceSelector:
     matchLabels:
       dashboards: "kube-prometheus"
   interval: 1m
   rules:
-    # Schema requires 'title', 'uid', 'for', 'condition', 'data', 'execErrState', 'noDataState'
     - title: "NodeCPUHigh"
       uid: "node-cpu-high-rule-1"
       for: "1m" 
@@ -19,16 +17,17 @@ spec:
       noDataState: "NoData"
       execErrState: "Error"
       data:
+        # Step A: Get the raw CPU percentage (Removed the >80 from here)
         - refId: "A"
           datasourceUid: "prometheus"
           model:
             datasource:
               type: "prometheus"
               uid: "prometheus"
-            expr: '100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80'
-            intervalMs: 1000
-            maxDataPoints: 43200
+            expr: '100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)'
             refId: "A"
+            
+        # Step C: Evaluate if A is > 80 using standard classic_conditions
         - refId: "C"
           datasourceUid: "__expr__"
           model:
@@ -40,11 +39,12 @@ spec:
                   type: "and"
                 query:
                   params: ["A"]
+                reducer:
+                  params: []
+                  type: "last"
                 type: "query"
             datasource:
-              name: "Expression"
               type: "__expr__"
               uid: "__expr__"
-            expression: "A"
             refId: "C"
-            type: "threshold"
+            type: "classic_conditions"
