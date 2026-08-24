@@ -1,0 +1,11 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaFolder
+metadata:
+  name: operator-alerts
+  namespace: monitoring
+spec:
+  # The actual name of the folder as it will appear in the Grafana UI
+  title: "Operator Alerts" 
+  instanceSelector:
+    matchLabels:
+      dashboards: "kube-prometheus" # Links the folder to your specific Grafana instance
