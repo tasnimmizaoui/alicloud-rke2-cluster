@@ -4,7 +4,7 @@ metadata:
   name: high-cpu-alert
   namespace: monitoring
 spec:
-  folderRef: "operator-alerts" 
+  folderRef: "operator-alerts"
   instanceSelector:
     matchLabels:
       dashboards: "kube-prometheus"
@@ -12,14 +12,17 @@ spec:
   rules:
     - title: "NodeCPUHigh"
       uid: "node-cpu-high-rule-1"
-      for: "1m" 
+      for: "1m"
       condition: "C"
       noDataState: "NoData"
       execErrState: "Error"
       data:
-        # Step A: The Prometheus Query
+        # Step A: Prometheus query with explicit 5-minute relative time range
         - refId: "A"
           datasourceUid: "prometheus"
+          relativeTimeRange:
+            from: 300  # 300 seconds = 5 minutes ago
+            to: 0      # 0 seconds = now
           model:
             datasource:
               type: "prometheus"
@@ -28,8 +31,8 @@ spec:
             intervalMs: 1000
             maxDataPoints: 43200
             refId: "A"
-            
-        # Step B: Reduce the query to a single numeric value
+
+        # Step B: Reduce to single value
         - refId: "B"
           datasourceUid: "__expr__"
           model:
@@ -40,8 +43,8 @@ spec:
             reducer: "last"
             refId: "B"
             type: "reduce"
-            
-        # Step C: Evaluate the Math condition against the reduced value
+
+        # Step C: Evaluate condition
         - refId: "C"
           datasourceUid: "__expr__"
           model:
