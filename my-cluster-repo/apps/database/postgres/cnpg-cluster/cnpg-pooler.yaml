@@ -1,0 +1,12 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: n8n-db-pooler
+  namespace: default
+spec:
+  cluster:
+    name: n8n-db-cluster
+  instances: 2
+  type: rw
+  pgbouncer:
+    poolMode: transaction
