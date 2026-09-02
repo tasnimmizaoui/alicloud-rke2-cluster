@@ -1,0 +1,20 @@
+# 1. Observability
+monitoring:
+  podMonitorEnabled: true
+
+# 2. Operator Configuration
+config:
+  clusterWide: true
+
+# 3. CRD Management
+crds:
+  create: true
+
+# 4. Resource Allocation (Guaranteed QoS)
+resources:
+  requests:
+    cpu: 100m
+    memory: 100Mi
+  limits:
+    cpu: 500m
+    memory: 500Mi
