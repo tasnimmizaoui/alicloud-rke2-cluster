@@ -10,7 +10,7 @@ spec:
   
   storage:
     size: 10Gi
-
+    storageClass: strict-essd-pl0-me-central-1a
   resources:
     requests:
       cpu: 250m
