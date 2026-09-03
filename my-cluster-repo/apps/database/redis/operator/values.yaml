@@ -1,0 +1,59 @@
+redisOperator:
+  name: redis-operator
+  webhook: true
+  automountServiceAccountToken: true
+  serviceDNSDomain: "cluster.local"
+  watchNamespace: ""
+  metrics:
+    enabled: true
+    bindAddress: ":8080"
+  pprof:
+    enabled: false
+
+# Cert-manager configuration
+# Set to 'false' if cert-manager is not installed (Helm will auto-generate self-signed certs)
+certmanager:
+  enabled: true
+  apiVersion: "cert-manager.io/v1"
+
+# Webhook certificate fallback settings
+certificate:
+  name: serving-cert
+  secretName: webhook-server-cert
+
+issuer:
+  create: true
+  kind: Issuer
+  type: selfSigned
+  name: redis-operator-issuer
+
+# Security & Pod hardening matching production
+podSecurityContext:
+  runAsNonRoot: true
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+
+# Sized for 4GB RKE2 nodes
+resources:
+  requests:
+    cpu: 25m
+    memory: 64Mi
+  limits:
+    cpu: 100m
+    memory: 256Mi
+
+rbac:
+  enabled: true
+
+serviceAccount:
+  automountServiceAccountToken: true
+
+manager:
+  config:
+    kubeClientTimeout: 60s
+    kubeClientQPS: 0.0

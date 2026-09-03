@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redis-replication
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "11"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    - repoURL: https://ot-container-kit.github.io/helm-charts
+      chart: redis-replication
+      targetRevision: 0.17.1
+      helm:
+        releaseName: redis-replication
+        valueFiles:
+          - $values/my-cluster-repo/apps/database/redis/redis-replication/values.yaml
+    - repoURL: 'https://github.com/tasnimmizaoui/alicloud-rke2-cluster.git'
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: redis
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
