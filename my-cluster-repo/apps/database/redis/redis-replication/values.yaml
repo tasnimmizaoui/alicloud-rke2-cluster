@@ -1,27 +1,29 @@
 redisReplication:
   name: redis-replication
-  size: 2 # 1 Primary + 1 Replica
-  
-  redis:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 256Mi
-      limits:
-        cpu: 250m
-        memory: 512Mi
-    redisConfig:
-      additionalRedisConfig: |
-        maxmemory-policy noeviction
-        appendonly yes
-        appendfsync everysec
+  clusterSize: 2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 250m
+      memory: 512Mi
 
-  storage:
-    volumeClaimTemplate:
-      spec:
-        storageClassName: strict-essd-pl0-me-central-1a
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 5Gi
+# Inject Redis configurations directly into redis.conf
+externalConfig:
+  enabled: true
+  data: |
+    maxmemory-policy noeviction
+    appendonly yes
+    appendfsync everysec
+
+# Storage configuration must be at the root level, not nested!
+storageSpec:
+  volumeClaimTemplate:
+    spec:
+      storageClassName: strict-essd-pl0-me-central-1a
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
