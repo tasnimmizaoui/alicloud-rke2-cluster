@@ -10,6 +10,13 @@ grafana:
 
 prometheus:
   prometheusSpec:
+    # Set  to empty brackets to disable the label requirement
+    podMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelector: {}
+    
+    # same for ServiceMonitors so Redis/n8n will work !
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
     retention: 7d
     storageSpec: {}
       # volumeClaimTemplate:
