@@ -7,6 +7,8 @@ spec:
   cluster:
     name: n8n-db-cluster
   instances: 2
+  monitoring:
+    enablePodMonitor: true
   type: rw
   pgbouncer:
     poolMode: transaction

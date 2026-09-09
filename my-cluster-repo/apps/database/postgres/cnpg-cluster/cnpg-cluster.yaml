@@ -7,6 +7,9 @@ spec:
   instances: 2
   imageName: ghcr.io/cloudnative-pg/postgresql:18
   primaryUpdateStrategy: unsupervised
+
+  monitoring:
+    enablePodMonitor: true
   
   storage:
     size: 10Gi
